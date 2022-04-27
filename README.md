@@ -1,54 +1,54 @@
-# docker-amp-slim
+# docker-php-mysql
 Docker environement stack with APACHE, MYSQL, PHP
 
 
 ## Overview
 
-Requirement **docker-compose** 
+Requirement **docker-compose**
 
 
 ### Stack Setup
 
 * Apache version: 2.4
-* PHP version: 7.1
+* PHP version: 7.3
 * MySQL version: 5.6
 
 
 ### Docker Images
 
-* php:7.1-apache
+* php:7.3-apache
 * mysql:5.6
 
 
 ### Tree
 
 ```
-docker-amp-slim
+docker-php-mysql
 │   .env
 │   .gitignore
 │   docker-compose.yml
 │   LICENSE
 │   Makefile
 │   README.md
-│   
-├───app
+│
+├───src
 │       index.php
 │       info.php
-│       
-├───db        
+│
+├───db
 ├───docker
 │   ├───mysql
 │   │   │   Dockerfile
-│   │   │   
+│   │   │
 │   │   └───init
 |   |           000-operations.sql
 │   │           dbapp.sql
 |   |           zzz-operations.sql
-│   │       
+│   │
 │   └───php-apache
 │           app.conf
 │           Dockerfile
-│           
+│
 └───logs
     ├───db
     └───web
@@ -66,7 +66,7 @@ _Edit or view this file before building the stack_
 * `PROJECT_NAME`: Name of your docker stack
 * `VERSION_ID`: ID of your project stack. (Use it only if you want try more version of your project)
 * `XDEBUG`: Using `1` if you want install xdegub module, otherwise using `0`.
-* `TIME_ZONE`: Time zone, using form PHP and MySQL. 
+* `TIME_ZONE`: Time zone, using form PHP and MySQL.
 * `APP_URL`: Url of your web app. Using for CMS/Frameweork like Wordpress, CodeIgniter, etc.
 * `APACHE_PORT_EXPOSED`: Exposed port of you're web app.
 * `DB_PORT_EXPOSED`: Used only if you want connetc to database with external client. It's port number used for connetcting with external client like _HeidiSQL_ or _MySQL Workbench_ to create database and tables. Configure external client connetction using _host_ `127.0.0.1`, _username_ `root` whereas _password_ your `DB_ROOTPASS` and _port_ your `DB_PORT_EXPOSED` as in environment file.
@@ -92,10 +92,10 @@ $dbpass = getenv('DB_PASS');
 
 For install a CMS with wizard setup use:
 
-* _hostname_: `db` 
-* _database_: _the environment variable `DB_NAME` as in environment file_ 
-* _username_: _the environment variable `DB_USER` as in environment file_ 
-* _password_: _the environment variable `DB_PASS` as in environment file_ 
+* _hostname_: `db`
+* _database_: _the environment variable `DB_NAME` as in environment file_
+* _username_: _the environment variable `DB_USER` as in environment file_
+* _password_: _the environment variable `DB_PASS` as in environment file_
 * _port_: `3306` _it's important to declare it!_
 
 #### Database folder: `db`
@@ -164,13 +164,13 @@ services:
 Also, if you need to perform other operations on databases at the first build, you can edit the following files by entering the queries that you need:
 
   * `docker\mariadb\init\000-operations.sql`
-  * `docker\mariadb\init\zzz-operations.sql` 
+  * `docker\mariadb\init\zzz-operations.sql`
 
 These operations will only be performed on the first build
 
 ---
 
-PHP and Apache logs can be followed on the terminal _(default whit stdout, stderr)_ by `docker-compose logs -f web` command. 
+PHP and Apache logs can be followed on the terminal _(default whit stdout, stderr)_ by `docker-compose logs -f web` command.
 If instead you want to have them in a file, edit the `docker-compose.yml` by adding this line as below.
 
 ```yaml
@@ -209,19 +209,19 @@ If you're on linux system you can run:
 
 * `make install` - builds and init your stack
 * `make start` - start your stack
-* `make stop` - stop your stack 
+* `make stop` - stop your stack
 * `make remove` - remove your stack but mantain your databases and logs
 * `make purge` -  remove your stack and delete all databases and clear logs files
 * `make validate` - validate your docker-compose.yml file if you're do any changes
-* `make bash-db` - enter with bash into db container 
-* `make bash-web` - enter with bash into web container 
+* `make bash-db` - enter with bash into db container
+* `make bash-web` - enter with bash into web container
 
 Command in nutshell for build, start, stop, remove and validate the docker stack.
 
 * `docker-compose up -d --build` - builds and init your stack
 * `docker-compose down` - remove your stack but mantain your databases and logs
 * `docker-compose start` - start your stack
-* `docker-compose stop`  - stop your stack 
+* `docker-compose stop`  - stop your stack
 * `docker-compose down --volumes` - like _down_ but also removes volumes
 * `docker-compose config` validate your stack
 
